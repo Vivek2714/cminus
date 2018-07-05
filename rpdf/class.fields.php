@@ -282,6 +282,43 @@ class cminusFieldsBuilder{
 									);
 		}
 
+		#
+		if($entry[110] == 'Yes'){
+			$fieldEleventh = GF_Fields::get( "textarea" );
+			$fieldEleventh->label   = "It is important to the business that our choice of building and our fit-out adequately reflects our brand in a way that it communicates
+						to the market (both clients and future staff) who we are, what we do, what we stand for, how we approach the needs of our customers,
+						the quality of our offering and how we treat our staff.";
+		}
+
+		#
+		if ( $entry[26] == 'Yes' ){
+			$conditionalText = "";
+			if ( $entry[26] == 'Yes' ){
+				$conditionalText .= "health, well-being and productivity";
+			}
+			 if ( $entry[73] >= '3' ){
+				$conditionalText .= ", creativity and collaboration";
+			}
+			
+			$fieldTweleveth = GF_Fields::get( "textarea" );
+			$fieldTweleveth->label = "The building engineering services and final office configuration needs to promote".$conditionalText."and any impediments to these outcomes must be noted specifically in response to the requirements outlined in this brief.";
+		}
+
+		#
+		$fieldThirteenth = GF_Fields::get( "textarea" );
+		$fieldThirteenth->label ="The building engineering services and final office configuration needs to promote health, well-being and productivity and any impediments to these outcomes must be noted specifically in response to the requirements outlined in this brief. Please note any impediments here, or in your responses to specific criteria.";
+
+		#
+		$fieldFourteenth = GF_Fields::get( "textarea" );
+		$fieldFourteenth->label ="Full details and clarity regarding the limitations of electrical capacity and the distribution and access to equipment and workstation electrical loads across the full tenancy space, is required by the respondents to this brief. Enter details here.";
+
+		#
+		$fieldFifteenth = GF_Fields::get( "textarea" );
+		$fieldFifteenth->label ="Limitations on the air-conditioning systems relating to heat load from any installed electrical appliances (also taking account of lighting, building and people loads) must also be advised. Enter details here.";
+
+
+
+
 
 
 
@@ -305,6 +342,11 @@ class cminusFieldsBuilder{
 		$fields[] = $fieldEightth;
 		$fields[] = $fieldNineth;
 		$fields[] = $fieldTenth;
+		$fields[] = $fieldEleventh;
+		$fields[] = $fieldTweleveth;
+		$fields[] = $fieldThirteenth;
+		$fields[] = $fieldFourteenth;
+		$fields[] = $fieldFifteenth;
 
 
 
