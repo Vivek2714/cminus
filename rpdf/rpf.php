@@ -60,9 +60,23 @@ class cminusRPF{
 
 			// Adding field id
 			foreach( $fields->getFeilds( 85 ) as $key => $value ){
-				$value->id = $key+1;
-				$tempFields[] = $value;
+				if( !empty($value) ){
+					$value->id = $key+1;
+					$tempFields[] = $value;
+				}
 			}
+
+
+			//return $fields;
+
+			echo "<pre>";
+
+				print_r( $tempFields );
+
+			echo "</pre>";
+
+
+			die;
 
 			// Creating form object
 			$formId = 20;

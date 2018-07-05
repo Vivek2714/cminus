@@ -296,7 +296,7 @@ class cminusFieldsBuilder{
 			if ( $entry[26] == 'Yes' ){
 				$conditionalText .= "health, well-being and productivity";
 			}
-			 if ( $entry[73] >= '3' ){
+			if ( $entry[73] >= '3' ){
 				$conditionalText .= ", creativity and collaboration";
 			}
 			
@@ -316,11 +316,51 @@ class cminusFieldsBuilder{
 		$fieldFifteenth = GF_Fields::get( "textarea" );
 		$fieldFifteenth->label ="Limitations on the air-conditioning systems relating to heat load from any installed electrical appliances (also taking account of lighting, building and people loads) must also be advised. Enter details here.";
 
+		#
+		$fieldSixteenth = GF_Fields::get( "textarea" );
+		$fieldSixteenth->label ="Respondents to note in their submissions the data carrying capacity and whether the building has an inbuilding coverage (IBC) system that will ensure that mobile, wireless data and GPS signals are not compromised due to the building’s structure or any limitations of the office space. Any special provisions that are offered that will enable our businesses future digital strategy should be articulated.";
 
+		#
+		if( $entry[124] == 'Yes'){
+			$fieldSeventeenth = GF_Fields::get( "radio" );
+			$fieldSeventeenth->label   = "Particular requirements relating to our digital strategy include:";
+			$fieldSeventeenth->choices = array(
+										array(
+									        'text'          => 'Yes',
+									        'value'         => 'Yes',
+									        'isSelected'    => false,
+									    ),
+									    array(
+									        'text'          => 'No',
+									        'value'         => 'No',
+									        'isSelected'    => false,
+									    )
+									);
+		}
 
+		#
+		if ( $entry[72] >= '3' ){
+			$fieldEightteenth = GF_Fields::get( "textarea" );
+			$fieldEightteenth->label ="In relation to office configuration, it is ".$entry[72]." important for all staff to be co-located on the same floor but as a minimum all members of the same teams
+						 need to be connected by no more than a single interconnected and open stairwell.";
+		}
 
+		#
+		if ( $entry[73] >= '3' ){
+			$fieldNineteenth = GF_Fields::get( "textarea" );
+			$fieldNineteenth->label ="Staff common areas are to be configured to promote collaboration between the various sections within the business.";
+		}
 
+		#
+		if ( $entry[86] >= '3' ){
 
+			if ( $entry[4] == 'Yes' ) { 
+				$conditionalText =' , although it is anticipated that the majority of office space shall be open floor'; 
+			}
+
+			$fieldTwentyth = GF_Fields::get( "textarea" );
+			$fieldTwentyth->label ="A variety of different meeting rooms are envisaged".$conditionalText;
+		}
 
 		// Static fields
 		$fields[] = $agentDetails;
@@ -347,7 +387,11 @@ class cminusFieldsBuilder{
 		$fields[] = $fieldThirteenth;
 		$fields[] = $fieldFourteenth;
 		$fields[] = $fieldFifteenth;
-
+		$fields[] = $fieldSixteenth;
+		$fields[] = $fieldSeventeenth;
+		$fields[] = $fieldEightteenth;
+		$fields[] = $fieldNineteenth;
+		$fields[] = $fieldTwentyth;
 
 
 
