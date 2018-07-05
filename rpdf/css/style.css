@@ -1,0 +1,20 @@
+.cminus-thankyou-message{
+	display:none;
+}
+.cminus-confirmation-box a{
+	cursor: pointer;
+	color: #ffffff;
+	border-color: #282b2d;
+	background-color: #282b2d;
+	margin-bottom: 0.25em;
+	text-shadow: 0 0.075em 0.075em rgba(0,0,0,0.5);
+	box-shadow: 0 0.25em 0 0 #141516,0 4px 9px rgba(0,0,0,0.75);
+	padding: 20px;
+	float: left;
+	margin: 10px;
+	width: 47%;
+	text-align: center;
+}
+.cminus-confirmation-box a:hover{
+	color: #ffffff;
+}
