@@ -144,6 +144,64 @@ $fieldsArray = array(
 				   'label'  => 'Particular preference will be given to buildings which are able to demonstrate the highest levels of compliance with energy efficiency,	IEQ, IAQ, individual comfort controls and Biophilia. Refer to the reputation section above for minimum energy rating required. Of each of those items we rate them in the following order of preference to our business:',
 				   'type'   => 'textarea'
 				  ),
+
+
+
+
+				// 
+				'30' => array(
+				   'label'  => 'An office location that caters for multiple transport options is preferred. Particular preference will be provided to locations adjacent to lite or heavy rail lines.',
+				   'type'   => 'textarea'
+				  ),
+				'31' => array(
+				   'label'  => 'The minimum number of carparks we need is',
+				   'type'   => 'text'
+				  ),
+				'32' => array(
+				   'label'  => 'End or trip facilities for cyclists and lockers and showers are essential',
+				   'type'   => 'textarea'
+				  ),
+				'33' => array(
+				   'label'  => 'We are looking to preference facilities that enable our workplace health and wellbeing program.',
+				   'type'   => 'textarea'
+				  ),
+				'34' => array(
+				   'label'  => 'As an alternate to locating all staff on a single floor we would be interested in access to internal staircases.',
+				   'type'   => 'textarea'
+				  ),
+				'35' => array(
+				   'label'  => 'It is essential that staff and clients have access to good quality food and beverage facilities nearby and preferably within a short walk from the office (particularly to a reasonably sized and well-designed coffee shop to facilitate business meetings).',
+				   'type'   => 'textarea'
+				  ),
+				'36' => array(
+				   'label'  => 'It is advantageous for the following destinations to be within a short walk or conveniently located short ride public transport facilities;',
+				   'type'   => 'textarea'
+				  ),
+				'37' => array(
+				   'label'  => 'Please note the following additional requirements not covered above, or requiring special attention:',
+				   'type'   => 'textarea',
+				   'description' => 'Meeting the requirements of the above brief is not only dependent on the physical building, its orientation and location, but also the type of design expertise that your business will need to assemble in order to deliver the outcomes nominated above.'
+				  ),
+				'38' => array(
+				   'label'  => 'A Workplace Strategist (this service might be available for an Architectural firm in addition to interior design capability)',
+				   'type'   => 'textarea'
+				  ),
+				'39' => array(
+				   'label'  => 'A building services engineer with acute IEQ and IAQ skills in HVAC and lighting (both services could be procured separately)',
+				   'type'   => 'textarea'
+				  ),
+				'40' => array(
+				   'label'  => 'A Green Building consultant familiar with the rating tools and certification requirements.',
+				   'type'   => 'textarea'
+				  ),
+				'41' => array(
+				   'label'  => 'Acoustic design engineer',
+				   'type'   => 'textarea'
+				  ),
+				'42' => array(
+				   'label'  => 'flease add any a recommended that you undertake a staff survey to determine their preferred configuration and features for your future office; and pre and post occupancy studies associated with staff productivity benchmarks (self-assessments).',
+				   'type'   => 'textarea'
+				  ),
 				);
 
 
@@ -365,7 +423,7 @@ class cminusFieldsBuilder{
 			$fields[] = $this->addQuestionInForm( 29 );
 		}
 
-		//$this->debug($fields);
+		$this->debug($fields);
 
 		return $fields;
 
