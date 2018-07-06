@@ -1,47 +1,207 @@
 <?php
 
+$fieldsArray = array(
+				 '1' => array(
+				   'label'  => 'Agent Details',
+				   'type'   => 'section',
+				  ),
+				 '2' => array(
+				   'label'  => 'Contact Name',
+				   'type'   => 'name',
+				  ),
+				 '3' => array(
+				   'label'  => 'Contact Phone',
+				   'type'   => 'phone',
+				   'phoneFormat' => 'international'
+				  ),
+				 '4' => array(
+				   'label'  => 'Contact Email',
+				   'type'   => 'email',
+				  ),
+				 '5' => array(
+				   'label'  => 'Company / Branch / Office',
+				   'type'   => 'text',
+				  ),
+				 '6' => array(
+				   'label'  => 'Responses to Brief Criteria',
+				   'type'   => 'section',
+				  ),
+				 '7' => array(
+				   'label'  => 'Address of property being put forward',
+				   'type'   => 'address',
+				  ),
+
+
+
+
+
+
+
+				);
+
+ /*'2' => array(
+   'label' => 'How are you ##param1## doing ##param2## ?',
+   'paramCount' => 2,
+   'type' => 'select',
+   'option' => array(
+         	'Yes'       => 'Yes',
+         	'No'        => 'No',
+   ),
+   'value' => 'Yes'
+  ),*/
+
+/*$fields[] = $this->addQuestionInForm( 3 , array( 
+									'replaceParam' => array( 
+										'##param1##' => '5', 
+										'##param2##' => '6'
+									) ) );*/
+
+
+
 class cminusFieldsBuilder{
 
-	public function getFeilds( $targetEntry ){
+	public function debug( $param ){
+		echo "<pre>";
+			print_r( $param );
+		echo "</pre>";
+		die;
+	}
+
+
+	public function addQuestionInForm( $index, $addionalParam = array() ){
+
+		global $fieldsArray;
+		$param = $fieldsArray[$index];
+		$param = array_merge( $param, $addionalParam ); 
+
+		// Default values
+		$tempParam = array(
+						'id'           => 1,
+						'type'         => 'text',
+						'label'        => 'Title',
+						'size'         => 'medium',
+						'value'        => ''
+					);
+
+		$param = array_merge( $tempParam, $param );
+	
+		// Get feild object
+		$fieldObject = GF_Fields::create();
+
+		// Adding field properties
+		$fieldObject->type          =  $param['type'];
+		$fieldObject->id            =  $index;
+
+		// Only for dynamic label
+		
+		if( !empty( $param['replaceParam'] ) ){
+			foreach( $param['replaceParam'] as $key => $value ){
+				$search[]   = $key;
+				$replace[]  = $value;
+			}
+			$label = str_replace( $search, $replace, $param['label']);
+		}else{
+			$label =  $param['label'];
+		}
+
+		$fieldObject->label         = $label;
+		$fieldObject->size          =  $param['size'];
+		$fieldObject->defaultValue  =  $param['value'];
+
+		// Add additional params for different field types
+		switch( $param['type'] ){
+
+			case 'select':
+				foreach( $param['option'] as $key => $value){
+					$selected = ( $param['value'] == $key ) ? true : false;
+					$options[] = array(
+							        'text'          => $key,
+							        'value'         => $value,
+							        'isSelected'    => $selected
+							    );
+				}
+				$fieldObject->choices = $options;
+			break;
+
+			case 'checkbox':	
+				foreach( $param['option'] as $key => $value){
+					// Selected values for checkbox
+					$values = explode( ",", $param['value']);
+					$selected = in_array( $key, $values ) ? true : false;
+					$options[] = array(
+							        'text'          => $key,
+							        'value'         => $value,
+							        'isSelected'    => $selected
+							    );
+				}
+				$fieldObject->choices = $options;
+			break;
+
+			case 'radio':
+				foreach( $param['option'] as $key => $value){
+					$selected = ( $param['value'] == $key ) ? true : false;
+					$options[] = array(
+							        'text'          => $key,
+							        'value'         => $value,
+							        'isSelected'    => $selected
+							    );
+				}
+				$fieldObject->choices = $options;
+			break;
+
+			case 'number':
+				$fieldObject->numberFormat = $param['numberFormat'];
+			break;
+
+			case 'date':
+				$fieldObject->dateType = $param['dateType'];
+			break;
+
+			case 'phone';
+				$fieldObject->phoneFormat = $param['phoneFormat'];
+			break;	
+		}
+		return $fieldObject;
+	}
+
+	// Get dynamic form fields
+	public function getFields( $targetEntry ){
 
 		if( empty($targetEntry) ){
 			return array();
 		}
 
+		//Get entry details
 		$entry = GFAPI::get_entry($targetEntry);
 
-		/*
-		* Static fields
-		*/
+		$fields = array();
 
 		// Agent Details 
-		$agentDetails = GF_Fields::get( "section" );
-		$agentDetails->label   = "Agent Details";
+		$fields[] = $this->addQuestionInForm( 1 );
 
 		// Contact Name
-		$contactName = GF_Fields::get( "name" );
-		$contactName->label   = "Contact Name";
+		$fields[] = $this->addQuestionInForm( 2 );
 
 		// Contact Phone
-		$contactPhone = GF_Fields::get( "phone" );
-		$contactPhone->label   = "Contact Phone";
-		$contactPhone->phoneFormat = "international";
+		$fields[] = $this->addQuestionInForm( 3 );
 
 		// Contact Email
-		$contactEmail = GF_Fields::get( "email" );
-		$contactEmail->label   = "Contact Email";
+		$fields[] = $this->addQuestionInForm( 4 );
 
 		// Company / Branch / Office
-		$company = GF_Fields::get( "text" );
-		$company->label   = "Company / Branch / Office";
+		$fields[] = $this->addQuestionInForm( 5 );
 
 		// Responses to Brief Criteria
-		$responses = GF_Fields::get( "section" );
-		$responses->label   = "Responses to Brief Criteria";
+		$fields[] = $this->addQuestionInForm( 6 );
 
 		// Address of property being put forward
-		$addressOfProperty = GF_Fields::get( "address" );
-		$addressOfProperty->label   = "Address of property being put forward";
+		$fields[] = $this->addQuestionInForm( 7 );
+
+
+		//$this->debug($fields);
+
+		return $fields;
+
 
 		/*
 		* Dynamic fields
@@ -362,6 +522,22 @@ class cminusFieldsBuilder{
 			$fieldTwentyth->label ="A variety of different meeting rooms are envisaged".$conditionalText;
 		}
 
+		#
+		if ( $entry[33] == 'Yes' ){
+			$fieldTwentyFirst = GF_Fields::get( "textarea" );
+			$fieldTwentyFirst->label ="Special security access requirements are to be provided for approximately ".$entry[101]."m² and ".$entry[102]." staff.
+					Access to be via passcode/card only and monitored via surveillance cameras both internally and remotely.";
+		}
+
+		#
+		if ( $entry[112] == 'Yes' ){
+			$fieldTwentySecond = GF_Fields::get( "textarea" );
+			$fieldTwentySecond->label ="Particular preference will be given to buildings which are able to demonstrate the highest levels of compliance with energy efficiency,
+					IEQ, IAQ, individual comfort controls and Biophilia. Refer to the reputation section above for minimum energy rating required.
+					Of each of those items we rate them in the following order of preference to our business:";
+		}
+
+
 		// Static fields
 		$fields[] = $agentDetails;
 		$fields[] = $contactName;
@@ -377,25 +553,26 @@ class cminusFieldsBuilder{
 		$fields[] = $fieldThird;
 		$fields[] = $fieldFourth;
 		$fields[] = $fieldFifth;
-		$fields[] = $fieldSixth;
-		$fields[] = $fieldSeventh;
-		$fields[] = $fieldEightth;
-		$fields[] = $fieldNineth;
-		$fields[] = $fieldTenth;
-		$fields[] = $fieldEleventh;
-		$fields[] = $fieldTweleveth;
-		$fields[] = $fieldThirteenth;
-		$fields[] = $fieldFourteenth;
-		$fields[] = $fieldFifteenth;
-		$fields[] = $fieldSixteenth;
-		$fields[] = $fieldSeventeenth;
-		$fields[] = $fieldEightteenth;
-		$fields[] = $fieldNineteenth;
-		$fields[] = $fieldTwentyth;
+		//$fields[] = $fieldSixth;
+		//$fields[] = $fieldSeventh;
+		//$fields[] = $fieldEightth;
+		//$fields[] = $fieldNineth;
+		//$fields[] = $fieldTenth;
+		//$fields[] = $fieldEleventh;
+		//$fields[] = $fieldTweleveth;
+		//$fields[] = $fieldThirteenth;
+		//$fields[] = $fieldFourteenth;
+		//$fields[] = $fieldFifteenth;
+		//$fields[] = $fieldSixteenth;
+		//$fields[] = $fieldSeventeenth;
+		//$fields[] = $fieldEightteenth;
+		//$fields[] = $fieldNineteenth;
+		//$fields[] = $fieldTwentyth;
+		//$fields[] = $fieldTwentyFirst;
+		//$fields[] = $fieldTwentySecond;
 
 
-
-		//return $fields;
+		return $fields;
 
 		echo "<pre>";
 

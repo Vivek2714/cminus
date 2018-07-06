@@ -51,41 +51,22 @@ class cminusRPF{
 		if( isset( $_GET['form_creation'] ) ){
 
 			$fields = new cminusFieldsBuilder();
-
-			$tempFields = array();
-
-			if( empty( $fields->getFeilds( 85 ) ) ){
+	    	$getAllFields = $fields->getFields(85);
+	    	
+			if( empty( $getAllFields ) ){
 				die();
 			}
-
-			// Adding field id
-			foreach( $fields->getFeilds( 85 ) as $key => $value ){
-				if( !empty($value) ){
-					$value->id = $key+1;
-					$tempFields[] = $value;
-				}
-			}
-
-
-			//return $fields;
-
-			echo "<pre>";
-
-				print_r( $tempFields );
-
-			echo "</pre>";
-
-
-			die;
 
 			// Creating form object
 			$formId = 20;
 			$formTitle = str_replace( 'formId', $formId , $this->formTitle);
+			$fields = $fields->getFields( 85 );
 
 			$form = array(
-						'title'       => $formTitle,
-						'description' => $this->formDescription,
-						'fields'      => $tempFields
+						'title'          => $formTitle,
+						'description'    => $this->formDescription,
+						'labelPlacement' => 'left_label',
+						'fields'         => $getAllFields
 					);
 
 			$result = GFAPI::add_form( $form );
@@ -124,24 +105,19 @@ class cminusRPF{
 	    if ( $notification['name'] == 'User Notification' && !empty($emailRecipients) ) {
 
 	    	$fields = new cminusFieldsBuilder();
+	    	$getAllFields = $fields->getFields();
 
-			$tempFields = array();
-
-			if( empty( $fields->getFeilds() ) ){
+			if( empty( $getAllFields ) ){
 				return $notification;
-			}
-
-			foreach( $fields->getFeilds() as $key => $value ){
-				$value->id = $key+1;
-				$tempFields[] = $value;
 			}
 
 			$formTitle = str_replace( 'formId', $form['id'] , $this->formTitle);
 
 			$form = array(
-						'title'       => $formTitle,
-						'description' => $this->formDescription,
-						'fields'      => $tempFields
+						'title'          => $formTitle,
+						'description'    => $this->formDescription,
+						'labelPlacement' => 'left_label',
+						'fields'         => $getAllFields
 					);
 
 			$result = GFAPI::add_form( $formObj );
